@@ -1,0 +1,7 @@
+*.js linguist-language=javascript
+*.jar linguist-language=java
+*.css linguist-language=css
+*.html linguist-language=html
+*.java linguist-language=java
+*.properties linguist-language=txt
+*.sql linguist-language=sql

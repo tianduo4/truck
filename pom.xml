@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.truck</groupId>
+    <artifactId>truck-base</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+    <url>http://maven.apache.org</url>
+
+    <modules>
+        <module>truck-common</module>
+        <module>truck-service</module>
+        <module>truck-admin</module>
+        <module>truck-web</module>
+    </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <sqlite.version>3.15.1</sqlite.version>
+        <blade-mvc.version>2.0.5-BETA1</blade-mvc.version>
+        <blade-jdbc.version>0.2.2-RELEASE</blade-jdbc.version>
+        <blade-tpl.verion>0.1.2</blade-tpl.verion>
+        <blade-validator>0.0.2</blade-validator>
+        <commonmark.version>0.9.0</commonmark.version>
+        <rome.version>1.0</rome.version>
+        <emoji.version>3.2.0</emoji.version>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>oss-releases</id>
+            <url>https://oss.sonatype.org/content/repositories/releases</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>oss-snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+</project>
