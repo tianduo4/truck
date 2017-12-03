@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.thymeleaf.org"
+      layout:decorator="fragments/layout">
+<head>
+    <title>友链管理</title>
+    <!--<link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>-->
+</head>
+<body>
+<!--这个模板是继承模板只能替换内容。并且只能在head部分添加自己的js css.
+    body中不能写任何的数据，如果body中的模块不是 继承模板中的内容都会被替换掉。
+-->
+
+<section class="Hui-article-box" layout:fragment="content">
+    <!--导航条提示-->
+    <nav class="breadcrumb"><i class="Hui-iconfont"></i> <a href="/" class="maincolor">首页</a> <span class="c-999 en">&gt;</span><span class="c-666">友链管理</span> <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+    <!--导航条提示-->
+    <!--页面主体-->
+    <div class="Hui-article">
+        <article class="cl pd-20">
+
+            <div class="mt-10">
+                <table class="table table-border table-bordered table-hover table-bg">
+                    <thead>
+                    <tr>
+                        <th scope="col" colspan="5">友链管理</th>
+                    </tr>
+                    <tr class="text-c">
+                        <th width="200">链接名称</th>
+                        <th width="200">链接地址</th>
+                        <th width="200">链接LOGO</th>
+                        <th width="200">链接排序</th>
+                        <th width="70">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr class="text-c" th:each="s : ${linkslist}">
+                        <td th:text="${s.name}"></td>
+                        <td th:text="${s.linkurl}"></td>
+                        <td th:text="${s.linklogo}"></td>
+                        <td th:text="${s.sort}"></td>
+
+                        <td class="f-14"><a title="编辑" href="javascript:;" th:onclick="'Javascript:admin_edit('+${s.id}+')'" style="text-decoration:none"><i class="Hui-iconfont"></i></a> <a title="删除" href="javascript:;" th:onclick="'javascript:admin_del('+${s.id}+')'" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont"></i></a></td>
+                    </tr>
+
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="mt-10"  >
+
+                <div id="pagecontent"></div>
+
+            </div>
+
+            <!--添加-->
+            <div class="mt-10">
+                <form th:action="@{/links/save}" method="post" id="form-add">
+            <table class="table table-border table-bordered table-bg mt-20">
+                <thead>
+                <tr>
+                    <th colspan="5" scope="col">保存友链</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr>
+                    <input type="hidden" id="id" name="id" value="0"/>
+                    <td><div class="col-xs-12"><input type="text" id="name" name="name" class="input-text" placeholder="请输入链接标题" /></div></td>
+                    <td><div class="col-xs-12"><input type="url" id="linkurl" name="linkurl" class="input-text" placeholder="请输入链接地址" /></div></td>
+                    <td><div class="col-xs-12"><input type="url" id="linklogo" name="linklogo" class="input-text"  placeholder="请输入链接LOGO，没有则不输入"/></div></td>
+                    <td><div class="col-xs-12"><input type="number" id="sort" name="sort" class="input-text" value="0"/></div></td>
+                    <td><button type="button" id="submit" class="btn btn-success" ><i class="Hui-iconfont"></i>保存友链</button></td>
+
+                </tr>
+
+                </tbody>
+            </table>
+                </form>
+            </div>
+        </article>
+    </div>
+    <!--页面主体-->
+</section>
+
+<div layout:fragment="footerjs">
+    <script type="text/javascript" th:src="@{/ui/lib/laypage/1.2/laypage.js}"></script>
+    <script type="text/javascript" th:src="@{/ui/lib/jquery.validation/1.14.0/jquery.validate.js}"></script>
+    <script type="text/javascript" th:src="@{/ui/lib/jquery.validation/1.14.0/messages_zh.js}"></script>
+
+    <script th:inline="javascript">
+
+        pageaction();
+
+        function admin_edit(id) {
+
+            $.get(basepath+"/links/edit/"+id,{ts:new Date().getTime()},function(data){
+                var links = data.data;
+
+                if(links){
+                    $("#id").val(links.id);
+                    $("#name").val(links.name);
+                    $("#linkurl").val(links.linkurl);
+                    $("#linklogo").val(links.linklogo);
+                    $("#sort").val(links.sort);
+                }
+
+            });
+
+
+        }
+
+        /*管理员-用户-删除*/
+        function admin_del(id){
+            layer.confirm('删除须谨慎，确认要删除吗？',function(index){
+                //此处请求后台程序，下方是成功后的前台处理……
+
+                $.get(basepath+"/links/delete/"+id,{ts:new Date().getTime()},function(data){
+                    if(data==1){
+                        location.replace(location.href);
+                    }
+                });
+            });
+        }
+
+        function pageaction(){
+            /*<![CDATA[*/
+            var totals = [[${totals}]];
+            if(totals <= 1){
+                $("#pagecontent").hide();
+            }
+            var curr = [[${page}]];
+            /*]]>*/
+            laypage({
+                cont: 'pagecontent',
+                pages: totals,
+                curr: curr || 1,
+                jump: function(e, first){ //触发分页后的回调
+                    if(!first){ //一定要加此判断，否则初始时会无限刷新
+                        console.info(e.curr);
+                        location.href = basepath+'?page='+e.curr;
+                    }
+                }
+            });
+        }
+
+        $(function () {
+            $("#form-add").validate({
+                rules:{
+                    name:{required:true},
+                    linkurl:{required:true,url:true}
+
+                },messages:{
+                    name:{required:"必填"},
+                    linkurl:{required:"必填",url:"请输入正确的URL"}
+                }
+            });
+            $("#submit").on('click',function(){
+                if($("#form-add").valid()){
+
+                    var idv = $("#id").val();
+                    if(idv == 0){
+                        $("#id").remove();
+                    }
+
+                    $.ajax({
+                        url:basepath+"/links/save",
+                        type:"post",
+                        dataType:'json',
+                        data:$("#form-add").serialize(),
+                        success:function(data){
+
+                            if(data ==1){
+                                var index = layer.index;
+                                location.replace(location.href);
+                                layer.close(index);
+                            }
+                        }
+                    });
+
+                }
+            });
+        });
+    </script>
+</div>
+
+
+</body>
+</html>

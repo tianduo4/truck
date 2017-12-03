@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="pages/fragments/headcssjs :: headcssjs">
+<!--这是引用的公共部分-->
+</head>
+<style>
+    .text-overflow{overflow: hidden;text-overflow: ellipsis;white-space: nowrap}
+</style>
+<body  class="bg-grey"  gtools_scp_screen_capture_injected="true">
+<!--引用公共的header start-->
+<header th:include="pages/fragments/header :: header"  id="header" class="header bg-white"></header>
+<!--引用公共的header end-->
+<!-- 页面内容 -->
+<div class="main-content index-page clearfix">
+    <div class="post-lists">
+        <div class="post-lists-body">
+            <div class="post-list-item" th:each="a :${articles}">
+                <div class="post-list-item-container">
+                    <div class="item-thumb bg-deepgrey" th:style="'background-image:url('+${#httpServletRequest.getContextPath()}+${a.thumb_img}+');'"></div>
+                    <a th:href="@{'/pages/article/'+${a.id}}">
+                        <div class="item-desc">
+                            <p class="text-overflow" style="width:200px;" th:text="${a.content}"> </p>
+                        </div>
+                    </a>
+                    <div class="item-slant reverse-slant bg-deepgrey"></div>
+                    <div class="item-slant"></div>
+                    <div class="item-label">
+                        <div class="item-title"><a href="#" th:text="${a.title}"></a>
+                        </div>
+                        <div class="item-meta clearfix">
+                            <div class="item-meta-ico" th:attrappend="class=${' ' + icons[a.id%10]}"
+                                 th:style="'background: url('+@{/ui/pages/img/bg-ico.png}+') no-repeat;background-size: 40px auto;'"></div>
+
+                            <div class="item-meta-cat"  th:utext="${a.categories}">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="lists-navigator clearfix">
+        <div id="pagecontent" style="text-align: center;"></div>
+    </div>
+</div>
+<script th:inline="javascript">
+
+    $(function () {
+        pageaction();
+    });
+
+    function pageaction(){
+        /*<![CDATA[*/
+        var totals = [[${totals}]];
+        var curr = [[${page}]];
+        if(totals <= 1){
+            $("#pagecontent").hide();
+        }
+        /*]]>*/
+        laypage({
+            cont: 'pagecontent',
+            pages: totals,
+            curr: curr || 1,
+            jump: function(e, first){ //触发分页后的回调
+                if(!first){ //一定要加此判断，否则初始时会无限刷新
+
+                    location.href = basepath+'/pages/index?page='+e.curr;
+
+                }
+            }
+        });
+    }
+
+</script>
+<div th:include="pages/fragments/footer :: footer"></div>
+</body>
+</html>

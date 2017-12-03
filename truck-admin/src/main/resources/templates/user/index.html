@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.thymeleaf.org"
+      layout:decorator="fragments/layout">
+<head>
+    <title>会员管理</title>
+
+</head>
+<body>
+<!--这个模板是继承模板只能替换内容。并且只能在head部分添加自己的js css.
+    body中不能写任何的数据，如果body中的模块不是 继承模板中的内容都会被替换掉。
+-->
+
+<section class="Hui-article-box" layout:fragment="content">
+    <!--导航条提示-->
+    <nav class="breadcrumb"><i class="Hui-iconfont"></i> <a href="/" class="maincolor">首页</a> <span class="c-999 en">&gt;</span><span class="c-666">会员管理</span> <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+    <!--导航条提示-->
+    <!--页面主体-->
+    <div class="Hui-article">
+        <article class="cl pd-20">
+            <!--<div class="cl pd-5 bg-1 bk-gray mt-10">-->
+                <!--<span class="l">-->
+                    <!--<a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont"></i> 批量删除</a>-->
+                    <!--<a class="btn btn-primary radius" href="javascript:;" onclick="admin_add('添加会员','/user/add','500','370')"><i class="Hui-iconfont"></i> 添加会员</a>-->
+                <!--</span>-->
+               <!--</div>-->
+
+            <div class="mt-10">
+                <table class="table table-border table-bordered table-hover table-bg">
+                    <thead>
+                    <tr>
+                        <th scope="col" colspan="6">会员管理</th>
+                    </tr>
+                    <tr class="text-c">
+                        <th width="25"><input type="checkbox" value="" name="" /></th>
+                        <th width="40">ID</th>
+                        <th width="200">用户名</th>
+                        <th width="200">Email</th>
+                        <th width="200">创建时间</th>
+                        <th width="70">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr class="text-c" th:each="u ,ustart: ${userlist}">
+                        <td><input type="checkbox" th:value="${u.id}" name="userId"/></td>
+                        <td th:text="${u.id}"></td>
+                        <td th:text="${u.username}"></td>
+                        <td th:text="${u.email}"></td>
+                        <td th:text="${u.createdate}"></td>
+                        <td th:text="暂不操作"></td>
+
+                        <!--<td class="f-14"><a title="编辑" href="javascript:;" th:onclick="'Javascript:admin_edit('+${u.id}+')'" style="text-decoration:none"><i class="Hui-iconfont"></i></a> <a title="删除" href="javascript:;" th:onclick="'javascript:admin_del('+${u.id}+')'" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont"></i></a></td>-->
+                    </tr>
+
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="mt-10">
+
+                <div id="pagecontent"></div>
+
+            </div>
+        </article>
+    </div>
+    <!--页面主体-->
+</section>
+
+<div layout:fragment="footerjs">
+    <script type="text/javascript" th:src="@{/ui/lib/laypage/1.2/laypage.js}"></script>
+    <script th:inline="javascript">
+
+        pageaction();
+        /*管理员-用户-添加*/
+        function admin_add(title,url,w,h){
+
+            layer_show_data(title,url,w,h);
+        }
+        /*管理员-用户-编辑*/
+        function admin_edit(id){
+            layer_show_data('用户编辑','/user/edit/'+id,500,350);
+        }
+        /*管理员-用户-删除*/
+//        function admin_del(id){
+//            layer.confirm('删除须谨慎，确认要删除吗？',function(index){
+//                //此处请求后台程序，下方是成功后的前台处理……
+//
+//                $.get("/user/delete/"+id,{ts:new Date().getTime()},function(data){
+//                    if(data==1){
+//                        location.replace(location.href);
+//                    }
+//                });
+//            });
+//        }
+
+        function datadel() {
+            var ids = [];
+            $("table tbody tr input:checkbox").each(function (index,cb) {
+                if($(cb).prop('checked')){
+                    ids.push($(cb).val());
+                }
+            });
+            if(ids.length==0){
+                layer.alert("至少选择一项进行删除");
+            }else{
+                $.post("/user/deleteAll",{ids:ids.join("-")},function(data){
+                    if(data==1){
+                        location.replace(location.href);
+                    }
+                });
+            }
+        }
+        function pageaction(){
+            /*<![CDATA[*/
+            var totals = [[${totals}]];
+            var curr = [[${page}]];
+            /*]]>*/
+            laypage({
+                cont: 'pagecontent',
+                pages: totals,
+                curr: curr || 1,
+                jump: function(e, first){ //触发分页后的回调
+                    if(!first){ //一定要加此判断，否则初始时会无限刷新
+                        console.info(e.curr);
+                        location.href = '?page='+e.curr;
+                    }
+                }
+            });
+        }
+
+    </script>
+</div>
+
+
+</body>
+</html>

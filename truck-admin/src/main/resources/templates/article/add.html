@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.thymeleaf.org"
+      layout:decorator="fragments/layout">
+<head>
+    <title>文章管理</title>
+
+    <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="//cdn.bootcss.com/dropzone/4.3.0/min/dropzone.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <link href="//cdn.bootcss.com/summernote/0.8.2/summernote.css" rel="stylesheet"/>
+    <link th:href="@{/ui/lib/mditor/mditor.min.css}" rel="stylesheet"/>
+    <link th:href="@{/ui/lib/tagsinput/jquery.tagsinput.css}" rel="stylesheet"/>
+    <style>
+
+        #tags_addTag input {
+            width: 100%;
+        }
+        #tags_addTag {
+            margin-top: -5px;
+        }
+
+    </style>
+</head>
+<body>
+<!--这个模板是继承模板只能替换内容。并且只能在head部分添加自己的js css.
+    body中不能写任何的数据，如果body中的模块不是 继承模板中的内容都会被替换掉。
+-->
+
+<section class="Hui-article-box" layout:fragment="content">
+    <!--导航条提示-->
+    <nav class="breadcrumb"><i class="Hui-iconfont"></i> <a href="/" class="maincolor">首页</a> <span class="c-999 en">&gt;</span><span class="c-666">添加文章</span> <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+    <!--导航条提示-->
+    <!--页面主体-->
+    <div class="Hui-article">
+        <article class="cl pd-20">
+            <div class="mt-10">
+
+                <div class="panel panel-primary">
+                    <div class="panel-header">添加文章</div>
+                    <div class="panel-body">
+                        <form action="" method="post" class="form form-horizontal" id="form-add">
+                        <div class="row cl">
+                            <input type="hidden" name="categories" id="categorys"/>
+                            <input type="hidden" name="content" id="content-editor"/>
+                            <input type="hidden" value="markdown" name="fmt_type"  id="fmt_type"/>
+                            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>标题：</label>
+                            <div class="formControls col-xs-8 col-sm-9">
+                                <input type="text" class="input-text" value="" placeholder="请输入文章标题" id="title" name="title"/>
+                            </div>
+                        </div>
+
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3">标签：</label>
+                            <div class="formControls col-xs-8 col-sm-9">
+                            <input name="tags" id="tags" type="text" class="input-text" placeholder="请填写文章标签"
+                                   value=""/>
+                            </div>
+
+                        </div>
+
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3"> 分类：</label>
+                            <div class="formControls col-xs-8 col-sm-9">
+                                <select id="multiple-sel" class="select2 form-control" multiple="multiple" data-placeholder="请选择分类...">
+                                    <option value="1" th:if="${#lists.size(categorys) eq 0}">默认分类</option>
+
+                                    <option th:each="c: ${categorys}" th:value="${c.id}" th:text="${c.name}" >默认分类</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3">文章缩略图url：</label>
+                            <div class="formControls col-xs-8 col-sm-9">
+                                <input name="thumb_img" id="thumb_img" type="text" class="input-text" placeholder="请填写文章缩略图网址"
+                                       value=""/>
+                            </div>
+
+                        </div>
+                        <div class="row cl">
+                            <div class="formControls col-xs-12">
+                                <button type="button"  id="switch-btn" class="btn btn-success f-r">切换为富文本编辑器</button>
+                            </div>
+                        </div>
+
+                        <div class="row cl" id="summernotediv">
+                            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>文章内容：</label>
+                            <div class="formControls col-xs-8 col-sm-9">
+                                <div class="summernote"></div>
+                            </div>
+                        </div>
+                        <div class="row cl" id="markdowndiv">
+                            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>文章内容：</label>
+                            <div class="formControls col-xs-8 col-sm-9">
+
+                                <textarea id="md-editor"></textarea>
+
+                            </div>
+                        </div>
+
+                        <div class="row cl">
+                            <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+                                <input class="btn btn-primary radius" onclick="submitform()" type="button" value="&nbsp;&nbsp;提交&nbsp;&nbsp;"/>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+        </article>
+    </div>
+    <!--页面主体-->
+</section>
+
+<div layout:fragment="footerjs">
+    <script th:src="@{/ui/lib/mditor/mditor.min.js}"></script>
+    <script src="//cdn.bootcss.com/summernote/0.8.2/summernote.min.js"></script>
+    <script src="//cdn.bootcss.com/summernote/0.8.2/lang/summernote-zh-CN.min.js"></script>
+    <script th:src="@{/ui/lib/tagsinput/jquery.tagsinput.min.js}"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <script src="//cdn.bootcss.com/dropzone/4.3.0/min/dropzone.min.js"></script>
+    <script th:src="@{/scripts/article/add.js}"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+
+        /*]]>*/
+    </script>
+</div>
+
+
+</body>
+</html>

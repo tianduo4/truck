@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.thymeleaf.org" >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="Cache-Control" content="no-cache" />
+    <meta http-equiv="Cache-Control" content="no-store"/>
+    <meta http-equiv="Expires" content="0" />
+    <!--<meta name="_csrf" th:content="${_csrf.token}"/>-->
+    <!--<meta name="_csrf_header" th:content="${_csrf.headerName}"/>-->
+    <title layout:title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE">后台管理</title>
+    <!--引入必须的CSS-->
+    <link rel="stylesheet" type="text/css" th:href="@{/ui/static/h-ui/css/H-ui.min.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/ui/static/h-ui.admin/css/H-ui.admin.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/ui/lib/iconfont/1.0.8/iconfont.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/cssfont/css/font-awesome.min.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/ui/static/h-ui.admin/skin/default/skin.css}" id="skin" />
+    <link rel="stylesheet" type="text/css" th:href="@{/ui/static/h-ui.admin/css/style.css}" />
+
+
+
+</head>
+<body>
+<!--这里相当于定义了一个父模板  th:replace 标注的模块不能被替换。
+替换内容是 layout:fragment  这个只能用作不写JS的页面。
+-->
+<div th:replace="fragments/header :: header"></div>
+
+<div th:replace="fragments/nav :: nav"></div>
+
+
+<!--需要替换的部分使用 layout:fragment=""-->
+<section class="Hui-article-box" layout:fragment="content">
+    <nav class="breadcrumb"><i class="Hui-iconfont"></i> <a href="/" class="maincolor">首页</a> <span class="c-999 en">&gt;</span><span class="c-666">我的桌面</span> <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+    <div class="Hui-article">
+        <article class="cl pd-20">
+            <p class="f-20 text-success">欢迎使用H-ui.admin <span class="f-14">v2.3</span>后台模版！</p>
+            <p>登录次数：18 </p>
+            <p>上次登录IP：222.35.131.79.1  上次登录时间：2014-6-14 11:19:55</p>
+            <table class="table table-border table-bordered table-bg">
+                <thead>
+                <tr>
+                    <th colspan="7" scope="col">信息统计</th>
+                </tr>
+                <tr class="text-c">
+                    <th>统计</th>
+                    <th>资讯库</th>
+                    <th>图片库</th>
+                    <th>产品库</th>
+                    <th>用户</th>
+                    <th>管理员</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="text-c">
+                    <td>总数</td>
+                    <td>92</td>
+                    <td>9</td>
+                    <td>0</td>
+                    <td>8</td>
+                    <td>20</td>
+                </tr>
+                <tr class="text-c">
+                    <td>今日</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+                <tr class="text-c">
+                    <td>昨日</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+                <tr class="text-c">
+                    <td>本周</td>
+                    <td>2</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+                <tr class="text-c">
+                    <td>本月</td>
+                    <td>2</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+                </tbody>
+            </table>
+
+        </article>
+        <footer class="footer">
+            <p>感谢jQuery、layer、laypage、Validform、UEditor、My97DatePicker、iconfont、Datatables、WebUploaded、icheck、highcharts、bootstrap-Switch<br/>
+                Copyright &copy;2015 H-ui.admin v3.0 All Rights Reserved.<br />
+                本后台系统由<a href="http://www.h-ui.net/" target="_blank" title="H-ui前端框架">H-ui前端框架</a>提供前端技术支持</p>
+        </footer>
+    </div>
+</section>
+
+
+<!--模板必须依赖的js-->
+
+<script type="text/javascript" th:src="@{/ui/lib/jquery/1.9.1/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/ui/lib/layer/2.4/layer.js}"></script>
+<script type="text/javascript" th:src="@{/ui/static/h-ui/js/H-ui.js}"></script>
+<script type="text/javascript" th:src="@{/ui/static/h-ui.admin/js/H-ui.admin.page.js}"></script>
+<script type="text/javascript" th:src="@{/scripts/public/public.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+
+    var basepath = /*[[${#httpServletRequest.getContextPath()}]]*/ "/";
+
+  function updatepass() {
+      layer_show_data('修改密码',basepath+'/admin/toUpdatePass/',500,210);
+  }
+</script>
+<div  layout:fragment="footerjs">
+<!--这里用来扩展自己写的js-->
+</div>
+
+</body>
+</html>

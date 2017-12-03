@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="pages/fragments/headcssjs :: headcssjs">
+<!--这是引用的公共部分-->
+</head>
+<body  class="bg-grey"  gtools_scp_screen_capture_injected="true">
+<!--引用公共的header start-->
+<header th:include="pages/fragments/header :: header"  id="header" class="header bg-white"></header>
+<!--引用公共的header end-->
+<!-- 页面内容 -->
+<div class="main-content common-page clearfix" th:inline="text">
+    <div class="categorys-item">
+        <div class="common-title">
+            [[${type?:'搜索'}]]：[[${keywords}]]
+        </div>
+
+        <div th:if="${#lists.size(clists)} eq 0">
+            <p>抱歉，还没有相关文章.</p>
+        </div>
+
+        <div class="post-lists">
+            <div class="post-lists-body">
+
+                <div class="post-list-item" th:each="c :${clists}">
+                    <div class="post-list-item-container ">
+                        <div class="item-label ">
+                            <div class="item-title">
+                                <a th:href="@{'/pages/article/'+${c.id}}" th:text="${c.title}"> </a>
+                            </div>
+                            <div class="item-meta clearfix">
+                                <div class="item-meta-ico" th:attrappend="class=${' ' + icons[c.id%10]}"
+                                     th:style="'background:url('+@{/ui/pages/img/bg-ico.png}+') no-repeat;background-size: 40px auto;'"></div>
+
+                                <div class="item-meta-date">发布于 [[${#dates.format(c.createdate, 'yyyy-MM-dd HH:mm')}]]</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="lists-navigator clearfix">
+        <div id="pagecontent" style="text-align: center;"></div>
+    </div>
+</div>
+<script th:inline="javascript">
+
+    $(function () {
+        pageaction();
+    });
+
+    function pageaction(){
+        /*<![CDATA[*/
+        var totals = [[${totals}]];
+        if(totals <= 1){
+            $("#pagecontent").hide();
+        }
+        var curr = [[${page}]];
+        var keywords = [[${keywords}]];
+        var type = [[${pageflag}]];
+        var categoryid = [[${categoryid}]];
+        /*]]>*/
+        laypage({
+            cont: 'pagecontent',
+            pages: totals,
+            curr: curr || 1,
+            jump: function(e, first){ //触发分页后的回调
+                if(!first){ //一定要加此判断，否则初始时会无限刷新
+                    console.info(e.curr);
+                    if(type=="tag"){
+                        location.href = basepath+'/pages/tag/'+keywords+'?page='+e.curr;
+                    }else if(type=="search"){
+                        location.href = basepath+'/pages/search/'+keywords+'?page='+e.curr;
+                    }else{
+                        location.href = basepath+'/pages/category/'+categoryid+'?page='+e.curr;
+                    }
+
+                }
+            }
+        });
+    }
+
+</script>
+<div th:include="pages/fragments/footer :: footer"></div>
+</body>
+</html>

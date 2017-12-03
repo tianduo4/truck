@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="pages/fragments/headcssjs :: headcssjs">
+<!--这是引用的公共部分-->
+</head>
+<body  class="bg-grey"  gtools_scp_screen_capture_injected="true">
+<!--引用公共的header start-->
+<header th:include="pages/fragments/header :: header"  id="header" class="header bg-white"></header>
+<!--引用公共的header end-->
+<!-- 页面内容 -->
+<article class="main-content  page-page">
+    <div class="post-header">
+        <h1 class="post-title" itemprop="name headline">关于</h1>
+        <div class="post-data">
+            <time datetime="2017-02-23" itemprop="datePublished">发布于 2017-04-15</time>
+        </div>
+    </div>
+    <div id="post-content" class="post-content">
+        <h3>网站说明</h3>
+        <p>原作者博客地址tale.biezhi.me</p>
+        <p>出于兴趣，对该网站进行了一次脱胎换骨，框架改为springboot + spring security + JPA .页面渲染使用了thymeleaf</p>
+
+    </div>
+</article>
+
+<div th:include="pages/fragments/footer :: footer"></div>
+</body>
+</html>

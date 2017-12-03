@@ -1,0 +1,35 @@
+<div th:fragment="nav" xmlns:th="http://www.thymeleaf.org">
+<aside class="Hui-aside">
+    <input runat="server" id="divScrollValue" type="hidden" value="" />
+    <div class="menu_dropdown bk_2">
+
+        <dl id="menu-member">
+            <dt><i class="Hui-iconfont">&#xe60d;</i> 系统管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+            <dd style="display: block;">
+                <ul>
+                    <li><a th:href="@{/admin/index}" id="mainindex" title="仪表盘">仪表盘</a></li>
+                    <li><a th:href="@{/user/index}" id="mainuser" title="会员管理">会员管理</a></li>
+                    <li><a th:href="@{/role/index}" id="mainrole" title="角色管理">角色管理</a></li>
+                    <li><a th:href="@{/links/index}" id="mainlinks" title="友链管理">友链管理</a></li>
+                    <li><a th:href="@{/file/index}" id="mainfile" title="附件管理">附件管理</a></li>
+                    <li><a th:href="@{/article/index}" id="mainarticle" title="文章管理">文章管理</a></li>
+                    <li><a th:href="@{/metas/index}" id="mainmetas" title="分类/标签管理">分类/标签管理</a></li>
+                </ul>
+            </dd>
+        </dl>
+
+
+    </div>
+</aside>
+<div class="dislpayArrow hidden-xs"><a class="pngfix" href="javascript:void(0);" onClick="displaynavbar(this)"></a></div>
+    <style>
+        .menuactive{
+            color: #dd514c !important;
+            background-color: #fafafa;
+        }
+    </style>
+    <script th:inline="javascript">
+        var menucode = [[${menu_code}]];
+        document.getElementById(menucode).setAttribute("class","menuactive");
+    </script>
+</div>

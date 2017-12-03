@@ -1,0 +1,8 @@
+公共文件的引用
+    + 在此记录一下
+    必须从template 开始引用
+
+为了防止冲突，紧急记录，新建archives.html页面
+新建archive类。新建siteservice。
+
+在 indexController中进行了归类的操作/

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="pages/fragments/headcssjs :: headcssjs">
+<!--这是引用的公共部分-->
+</head>
+<body  class="bg-grey"  gtools_scp_screen_capture_injected="true">
+<!--引用公共的header start-->
+<header th:include="pages/fragments/header :: header"  id="header" class="header bg-white"></header>
+<!--引用公共的header end-->
+<!-- 页面内容 -->
+<div class="main-content archive-page clearfix">
+    <div class="categorys-item">
+        <div th:each="a  :${archives}">
+        <div class="categorys-title" th:text="${a.datestr}"> </div>
+        <div class="post-lists">
+            <div class="post-lists-body">
+
+                <div class="post-list-item" th:each="c1:${a.contents}">
+                    <div class="post-list-item-container">
+                        <div class="item-label">
+                            <div class="item-title">
+                                <a th:href="@{'/pages/article/'+${c1.id}}" th:text="${c1.title}"> </a>
+                            </div>
+                            <div class="item-meta clearfix">
+                                <div class="item-meta-date" th:text="'发布于 '+${#dates.format(c1.createdate, 'yyyy-MM-dd HH:mm')}"> </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+
+<div th:include="pages/fragments/footer :: footer"></div>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="Cache-Control" content="no-cache" />
+    <meta http-equiv="Cache-Control" content="no-store"/>
+    <meta http-equiv="Expires" content="0" />
+    <meta charset="utf-8" />
+
+    <title>用户登录</title>
+    <link th:href="@{/styles/cssfont/css/font-awesome.css}" rel="stylesheet" type="text/css" />
+    <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/ui/admin/css/style.min.css}" rel="stylesheet" type="text/css" />
+    <style  th:inline="text">
+        body,html {
+            background: url("[[@{/ui/admin/images/bg/3.png}]]") no-repeat;
+            background-size: cover;
+        }
+        .panel-shadow {
+            -moz-box-shadow: 0px 0px 10px 0px rgba(39, 49, 65, 0.1);
+            -webkit-box-shadow: 0px 0px 10px 0px rgba(39, 49, 65, 0.1);
+            box-shadow: 0px 0px 10px 0px rgba(39, 49, 65, 0.1);
+        }
+        .bg-overlay {
+            -moz-border-radius: 6px 6px 0 0;
+            -webkit-border-radius: 6px 6px 0 0;
+            background-color: rgba(47, 51, 62, 0.3);
+            border-radius: 6px 6px 0 0;
+            height: 100%;
+            left: 0;
+            position: absolute;
+            top: 0;
+            width: 100%;
+        }
+        .input-border {
+            font-size: 14px;
+            width: 100%;
+            height: 40px;
+            border-radius: 0;
+            border: none;
+            border-bottom: 1px solid #dadada;
+        }
+
+        .bg-img > h3 {
+            text-shadow: 0px 2px 3px #555;
+            color: #cac9c8;
+        }
+    </style>
+</head>
+<body>
+
+<div style="margin: 0 auto; padding-bottom: 0%; padding-top: 7.5%; width: 380px;">
+    <div class="panel panel-color panel-danger panel-pages panel-shadow">
+        <div class="panel-heading bg-img">
+            <div class="bg-overlay"></div>
+            <h3 class="text-center m-t-10"> Login Tale</h3>
+        </div>
+
+        <div class="panel-body">
+            <form class="form-horizontal m-t-20" th:action="@{/login}" method="post" >
+
+                <div style="display: none;">
+                    <!--错误提示信息-->
+                    <div th:if="${param.error}">
+                        <input th:value="无效的用户或密码！" id="errorMsg" type="hidden"/>
+                    </div>
+                    <div th:if="${param.logout}">
+                        <input th:value="你已经退出！" id="errorMsg" type="hidden"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <input class="input-lg input-border" value="admin" name="username" type="text" id="username"
+                               placeholder="请输入账号 :)" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <input class=" input-lg input-border" th:value="123456" name="password" type="password" id="password"
+                               placeholder="请输入密码"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <input class=" input-lg input-border" id="checkCode" type="text" placeholder="验证码"   style="width:150px;"/>
+                        <img src="" onclick="reloadImg();" style="height: 30px;width: 70px;" th:src="@{/images/imagecode}" id="validateImg"/>
+                        <a id="kanbuq" href="javascript:;" onclick="reloadImg();">看不清，换一张</a>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <div class="checkbox checkbox-danger">
+                            <input type="checkbox" id="remember-me" name="remember-me" value="0" onclick="if(this.checked){this.value = 1}else{this.value=0}"/>
+                            <label for="remember-me">记住我</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group text-center m-t-40">
+                    <div class="col-xs-12">
+                        <button onclick="verSubmit()" class="btn btn-danger btn-lg btn-rounded btn-block w-lg waves-effect waves-light" style="box-shadow: 0px 0px 4px #868282;" type="submit">登&nbsp;录
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+
+<input th:value="${errorMsg}" id="errorMsg" type="hidden"/>
+
+<script type="text/javascript" th:src="@{/ui/lib/jquery/1.9.1/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/ui/lib/layer/2.4/layer.js}"></script>
+<script type="text/javascript" th:src="@{/scripts/public/login.js}"></script>
+</body>
+</html>

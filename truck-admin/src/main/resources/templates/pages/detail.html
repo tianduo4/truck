@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="pages/fragments/headcssjs :: headcssjs">
+<!--这是引用的公共部分-->
+</head>
+
+<body  gtools_scp_screen_capture_injected="true">
+<!--引用公共的header start-->
+<header th:include="pages/fragments/header :: header"  id="header" class="header bg-white"></header>
+<!--引用公共的header end-->
+<!-- 页面内容 -->
+
+<article class="main-content page-page" th:inline="text">
+    <div class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            <a th:href="@{'/pages/article/'+${c.id}}" th:text="${c.title}"></a>
+        </h1>
+        <div class="post-data">
+            <time  itemprop="datePublished">发布于<span th:text="${#dates.format(c.createdate, 'yyyy-MM-dd HH:mm')}"></span> </time>
+            / <span th:text="${c.categories}"></span>
+        </div>
+    </div>
+    <div id="post-content" class="post-content" itemprop="articleBody">
+        <p class="post-tags" ><a th:each="t: ${tags}" th:href="${#httpServletRequest.getContextPath()}+'/pages/tag/'+${t}" th:text="${t}">不能取出标签</a></p>
+
+        <!--<div th:utext="${c.content}"></div>-->
+
+        <p class="post-info">
+            本文由 admin 创作，采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"
+                                                                              rel="external nofollow">知识共享署名4.0</a> 国际许可协议进行许可<br/>本站文章除注明转载/出处外，均为本站原创或翻译，转载前请务必署名<br/>最后编辑时间为:
+            [[${#dates.format(c.createdate, 'yyyy-MM-dd HH:mm')}]]
+        </p>
+    </div>
+</article>
+<script th:inline="javascript">
+
+    var content = [[${c.content}]];
+    $(".post-tags").after(content);
+</script>
+<!--留言内容-->
+<!-- UY BEGIN -->
+<div id="uyan_frame" style="max-width: 700px;padding: 0px 25px 20px; margin: 0 auto;"></div>
+<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2131397"></script>
+<!-- UY END -->
+
+<div  th:include="pages/fragments/detailfooter :: detailfooter"></div>
+</body>
+</html>

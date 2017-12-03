@@ -1,0 +1,27 @@
+body{
+    background-color: #f3f3f4;
+}
+h3{
+    margin-top: 5px;
+    font-weight: 600;
+    font-size: 16px;
+    text-align: center;
+}
+.header{
+    margin-top: 5%;
+}
+
+.loginBox{
+    margin: 0 auto;
+    width: 40%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.btn-success{
+    background-color: #1ab394;
+    border-color: #1ab394;
+    color: #FFF;
+}
+.btn-success:hover{
+    background-color: #1ab394;
+}

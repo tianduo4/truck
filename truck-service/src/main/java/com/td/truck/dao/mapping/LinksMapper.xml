@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.td.truck.dao.LinksDao">
+
+	<!-- 开启二级缓存 -->
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.td.truck.model.Links">
+		<id column="id" property="id" />
+		<result column="linklogo" property="linklogo" />
+		<result column="linkurl" property="linkurl" />
+		<result column="name" property="name" />
+		<result column="sort" property="sort" />
+	</resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, linklogo, linkurl, name, sort
+    </sql>
+
+</mapper>

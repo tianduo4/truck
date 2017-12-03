@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.thymeleaf.org"
+      layout:decorator="fragments/layout">
+<head>
+    <title>附件管理</title>
+    <link href="//cdn.bootcss.com/dropzone/4.3.0/min/dropzone.min.css" rel="stylesheet"/>
+    <style>
+        #dropzone {
+            margin-bottom: 3rem;
+        }
+        .dropzone {
+            border: 2px dashed #0087F7;
+            border-radius: 5px;
+            background: white;
+        }
+        .dropzone .dz-message {
+            font-weight: 400;
+        }
+        .dropzone .dz-message .note {
+            font-size: 0.8em;
+            font-weight: 200;
+            display: block;
+            margin-top: 1.4rem;
+        }
+        .attach-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 8px #333;
+        }
+        .attach-text {
+            font-size: 12px;
+            font-weight: 300;
+        }
+        .attach-img:hover {
+            background-color: #f9f9f9;
+        }
+        .text-center{
+            text-align: center;
+        }
+        .fa{
+            font-size: 5px;
+        }
+
+    </style>
+</head>
+<body>
+<!--这个模板是继承模板只能替换内容。并且只能在head部分添加自己的js css.
+    body中不能写任何的数据，如果body中的模块不是 继承模板中的内容都会被替换掉。
+-->
+
+<section class="Hui-article-box" layout:fragment="content">
+    <!--导航条提示-->
+    <nav class="breadcrumb"><i class="Hui-iconfont"></i> <a href="/" class="maincolor">首页</a> <span class="c-999 en">&gt;</span><span class="c-666">附件管理</span> <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+    <!--导航条提示-->
+    <!--页面主体-->
+    <div class="Hui-article">
+        <article class="cl pd-20">
+
+            <div class="mt-10">
+
+                <div class="m-b-30">
+                    <form action="#" class="dropzone" id="dropzone">
+                        <div class="fallback">
+                            <input name="file" type="file" multiple="multiple" />
+                        </div>
+                        <div class="dz-message">
+                            <p>将文件拖至此处或点击上传.</p>
+                            <p>
+                                <span style="font-size: 16px; color: #d0d0d0;">一次最多可以上传10个文件</span>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="mt-10"  >
+
+
+
+                <div class="Huialert Huialert-info" th:if="${totals} eq 0"><i class="Hui-iconfont"></i>目前还没有一个附件呢，你可以上传试试!</div>
+
+
+                <div class="col-md-2 text-center" style="margin:8px auto" th:if="${totals} ne 0" th:each="a: ${attachs}">
+                    <a th:href="${a.furl}" target="_blank">
+                        <img class="attach-img" th:if="${a.ftype} eq 'image'"  th:src="${a.furl}" th:title="${a.fname}"/>
+                        <img class="attach-img" th:if="${a.ftype} ne 'image'"  th:src="@{/ui/admin/images/attach.png}" th:title="${a.fname}"/>
+                    </a>
+                    <div class="clearfix m-t-10">
+                        <span class="attach-text" th:text="${a.fname}"></span>
+                    </div>
+                    <div class="clearfix">
+                        <button th:attr="url=${a.furl}" type="button"
+                                class="btn btn-warning btn-sm waves-effect waves-light m-t-5 copy">
+                            <i class="fa icon-copy"></i> <span style="font-size: 12px;">复制</span>
+                        </button>
+                        <button type="button" class="btn btn-danger btn-sm waves-effect waves-light m-t-5"
+                                th:onclick="'Javascript:admin_del('+${a.id}+')'">
+                            <i class="fa icon-trash"></i> <span style="font-size: 12px;">删除</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="mt-10"  >
+
+                <div id="pagecontent"></div>
+
+            </div>
+
+        </article>
+    </div>
+    <!--页面主体-->
+</section>
+
+<div layout:fragment="footerjs">
+    <script type="text/javascript" th:src="@{/ui/lib/laypage/1.2/laypage.js}"></script>
+    <script src="//cdn.bootcss.com/dropzone/4.3.0/min/dropzone.min.js"></script>
+    <script src="//cdn.bootcss.com/clipboard.js/1.6.0/clipboard.min.js"></script>
+
+    <script th:inline="javascript">
+
+        $(function () {
+            pageaction();
+        });
+
+
+
+
+        /*管理员-用户-删除*/
+        function admin_del(id){
+            layer.confirm('删除须谨慎，确认要删除吗？',function(index){
+                //此处请求后台程序，下方是成功后的前台处理……
+
+                $.get(basepath+"/file/delete/"+id,{ts:new Date().getTime()},function(data){
+                    if(data==1){
+                        location.replace(location.href);
+                    }
+                });
+            });
+        }
+
+        function pageaction(){
+            /*<![CDATA[*/
+            var totals = [[${totals}]];
+            if(totals <= 1){
+                $("#pagecontent").hide();
+            }
+            var curr = [[${page}]];
+            /*]]>*/
+            laypage({
+                cont: 'pagecontent',
+                pages: totals,
+                curr: curr || 1,
+                jump: function(e, first){ //触发分页后的回调
+                    if(!first){ //一定要加此判断，否则初始时会无限刷新
+                        console.info(e.curr);
+                        location.href = basepath+'/file/index?page='+e.curr;
+                    }
+                }
+            });
+        }
+    </script>
+
+    <script type="text/javascript" th:inline="javascript">
+
+        /*<![CDATA[*/
+        $("#dropzone").dropzone({
+            url: basepath+"/qiniu/upload/image",
+            filesizeBase:1024,//定义字节算法 默认1000
+            maxFiles: 10,//最大文件数量
+            maxFilesize: '20', //MB
+            fallback:function(){
+               layer.alert('暂不支持您的浏览器上传!');
+            },
+            uploadMultiple: true,
+            dictFileTooBig:'您的文件超过'+ 20 +'MB!',
+            dictInvalidInputType:'不支持您上传的类型',
+            dictMaxFilesExceeded:'您的文件超过10个!',
+            init: function() {
+                this.on('queuecomplete', function (files) {
+
+                });
+                this.on('success', function (file) {
+                    console.info(file.name);
+                    var filedata = JSON.parse(file.xhr.responseText);
+                    console.info(filedata);
+                    $.ajax({
+                        type:'post',
+                        url:basepath+'/file/save',
+                        data:{"fname":file.name,"ftype":filedata.data.filetype,"furl":'http://'+filedata.data.url},
+                        success:function (data) {
+                            if(data == 1){
+                                layer.alert('上传成功',function () {
+                                    location.replace(location.href);
+                                });
+
+                            }
+                        }
+                    });
+                });
+                this.on('error', function (a, errorMessage, result) {
+                    if(!result.success && result.msg){
+                        layer.alert(result.msg || '上传失败');
+                    }
+                });
+                this.on('maxfilesreached', function () {
+                    this.removeAllFiles(true);
+                    layer.alert('文件数量超出限制');
+                });
+            }
+        });
+
+        var clipboard = new Clipboard('button.copy', {
+            text: function (trigger) {
+                return $(trigger).attr('url');
+            }
+        });
+
+        clipboard.on('success', function (e) {
+            console.info('Action:', e.action);
+            console.info('Text:', e.text);
+            console.info('Trigger:', e.trigger);
+            e.clearSelection();
+        });
+
+        /*]]>*/
+    </script>
+</div>
+
+
+</body>
+</html>

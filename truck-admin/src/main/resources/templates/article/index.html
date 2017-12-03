@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.thymeleaf.org"
+      layout:decorator="fragments/layout">
+<head>
+    <title>文章管理</title>
+
+</head>
+<body>
+<!--这个模板是继承模板只能替换内容。并且只能在head部分添加自己的js css.
+    body中不能写任何的数据，如果body中的模块不是 继承模板中的内容都会被替换掉。
+-->
+
+<section class="Hui-article-box" layout:fragment="content">
+    <!--导航条提示-->
+    <nav class="breadcrumb"><i class="Hui-iconfont"></i> <a href="/" class="maincolor">首页</a> <span class="c-999 en">&gt;</span><span class="c-666">文章管理</span> <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+    <!--导航条提示-->
+    <!--页面主体-->
+    <div class="Hui-article">
+        <article class="cl pd-20">
+
+            <div class="cl pd-5 bg-1 bk-gray mt-10">
+                <span class="l">
+                    <a class="btn btn-primary radius" href="javascript:;" onclick="admin_add()"><i class="Hui-iconfont"></i> 添加文章</a>
+                </span>
+            </div>
+            <div class="mt-10">
+                <table class="table table-border table-bordered table-hover table-bg">
+                    <thead>
+                    <tr>
+                        <th scope="col" colspan="6">文章管理</th>
+                    </tr>
+                    <tr class="text-c">
+                        <th width="200">标题</th>
+                        <th width="200">发布时间</th>
+                        <th width="50">浏览量</th>
+                        <th width="200">所属分类</th>
+                        <th width="200">发布状态</th>
+                        <th width="70">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr class="text-c" th:each=" a : ${articles}">
+                        <td th:text="${a.title}"></td>
+                        <td th:text="${#dates.format(a.createdate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                        <td th:text="${a.hits}"></td>
+                        <td th:text="${a.categories}"></td>
+                        <td>
+                            <span class="label label-success radius"  th:text="${a.status}">成功</span>
+                        </td>
+
+                        <td class="f-14">
+                            <a title="编辑" href="javascript:;" th:onclick="'Javascript:admin_edit('+${a.id}+')'" style="text-decoration:none"><i class="Hui-iconfont"></i></a>
+                            <a title="编辑" href="javascript:;" th:onclick="'Javascript:admin_view('+${a.id}+')'" style="text-decoration:none"><i class="icon Hui-iconfont"></i></a>
+                            <a title="删除" href="javascript:;" th:onclick="'javascript:admin_del('+${a.id}+')'" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont"></i></a></td>
+                    </tr>
+
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="mt-10">
+
+                <div id="pagecontent"></div>
+
+            </div>
+        </article>
+    </div>
+    <!--页面主体-->
+</section>
+
+<div layout:fragment="footerjs">
+    <script type="text/javascript" th:src="@{/ui/lib/laypage/1.2/laypage.js}"></script>
+    <script th:inline="javascript">
+
+        pageaction();
+        /*管理员-用户-添加*/
+        function admin_add(){
+
+            location.href = basepath+'/article/add';
+        }
+        /*管理员-用户-编辑*/
+        function admin_edit(id){
+            location.href = basepath+'/article/edit/'+id;
+        }
+
+        function admin_view(id) {
+            var href = basepath+'/pages/article/'+id;
+            window.open(href);
+        }
+        /*管理员-用户-删除*/
+        function admin_del(id){
+            layer.confirm('删除须谨慎，确认要删除吗？',function(index){
+                //此处请求后台程序，下方是成功后的前台处理……
+
+                $.get(basepath+"/article/delete/"+id,{ts:new Date().getTime()},function(data){
+                    if(data==1){
+                        location.replace(location.href);
+                    }
+                });
+            });
+        }
+
+
+        function pageaction(){
+            /*<![CDATA[*/
+            var totals = [[${totals}]];
+            var curr = [[${page}]];
+            /*]]>*/
+            laypage({
+                cont: 'pagecontent',
+                pages: totals,
+                curr: curr || 1,
+                jump: function(e, first){ //触发分页后的回调
+                    if(!first){ //一定要加此判断，否则初始时会无限刷新
+                        console.info(e.curr);
+                        location.href = basepath+'?page='+e.curr;
+                    }
+                }
+            });
+        }
+
+    </script>
+</div>
+
+
+</body>
+</html>

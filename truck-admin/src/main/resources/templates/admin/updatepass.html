@@ -1,0 +1,67 @@
+
+<article class="cl pd-20" >
+    <form  class="form form-horizontal" id="form-add">
+        <div class="row cl">
+            <label class="form-label col-xs-4 " style="text-align: right;"><span class="c-red">*</span>新密码：</label>
+            <div class="formControls col-xs-7 ">
+                <input type="password" class="input-text" value="" placeholder="" id="pass" name="password" />
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 " style="text-align: right;"><span class="c-red">*</span>再次输入新密码：</label>
+            <div class="formControls col-xs-7 ">
+                <input type="password" class="input-text" value="" placeholder="" id="repass" name="repassword" />
+            </div>
+        </div>
+
+        <div class="row cl">
+            <div class="col-xs-8 col-xs-offset-4">
+                <input class="btn btn-primary radius" id="submit" type="button" value="&nbsp;&nbsp;提交&nbsp;&nbsp;" />
+            </div>
+        </div>
+    </form>
+</article>
+<script type="text/javascript" th:src="@{/ui/lib/jquery.validation/1.14.0/jquery.validate.js}"></script>
+<!--<script type="text/javascript" th:src="@{/ui/lib/jquery.validation/1.14.0/messages_zh.js}"></script>-->
+
+<script>
+    $(function(){
+        $("#form-add").validate({
+            rules:{
+                password:{required:true,minlength:6},
+                repassword:{required:true,minlength:6,equalTo:'#pass'}
+            },messages:{
+                repassword:{required:"必填",minlength:'密码不能少于6位',equalTo:'两次输入密码不一致'},
+                password:{minlength:'密码不能少于6位',required:'必填'}
+            }
+        });
+
+        $("#submit").on('click',function(){
+            if($("#form-add").valid()){
+
+                $.ajax({
+                    url:basepath+"/admin/savepass",
+                    type:"post",
+                    dataType:'json',
+                    data:$("#form-add").serialize(),
+                    success:function(data){
+
+                        if(data== 1){
+                            var index = layer.index;
+                            location.replace(location.href);
+                            layer.close(index);
+                        }
+                    },error:function (data) {
+                        layer.alert('服务器有误。请联系系统管理员，错误代码：500');
+                    }
+                });
+
+            }
+        });
+
+
+
+    });
+
+</script>
+
