@@ -2,6 +2,7 @@ package com.td.truck.admin.controller;
 
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.td.truck.model.User;
 import com.td.truck.service.UserService;
 import org.slf4j.Logger;
@@ -36,22 +37,21 @@ public class UserController {
     @RequestMapping("/index")
     public String index(ModelMap map,HttpServletRequest req) throws Exception{
         List<User> users = userService.selectList(new EntityWrapper<User>());
-//        Integer page = req.getParameter("page")==null?0:(Integer.parseInt(req.getParameter("page"))-1);
-//        UserQo uq = new UserQo();
-//        uq.setPage(page);
-//        Page<User> pages = userService.findPage(new UserQo());
-//
-//        map.put("totals",pages.getTotalPages());
-//        map.put("page",page+1);
-//        map.put("userlist",pages.getContent());
-//        map.put("menu_code","mainuser");
+        Integer pageNum = req.getParameter("page")==null?0:(Integer.parseInt(req.getParameter("page"))-1);
+        Page<User> page=new Page<User>(pageNum,10);
+        Page<User> userPage = userService.selectPage(page);
+
+        map.put("totals",userPage.getTotal());
+        map.put("page",pageNum+1);
+        map.put("userlist",userPage.getRecords());
+        map.put("menu_code","mainuser");
         return "user/index";
     }
 
     @RequestMapping(value="/{id}")
     public String show(ModelMap model,@PathVariable Long id) {
-//        User user = userService.findById(id);
-//        model.addAttribute("user",user);
+        User user = userService.selectById(id);
+        model.addAttribute("user",user);
         return "user/show";
     }
 
