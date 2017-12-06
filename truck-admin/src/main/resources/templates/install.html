@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="shortcut icon" href="/static/admin/images/favicon.png"/>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <link rel="shortcut icon" th:href="@{/admin/images/favicon.png}"/>
     <title>Tale - 博客安装</title>
-    <link href="/static/admin/plugins/jquery-steps/1.1.0/jquery.steps.css" rel="stylesheet" type="text/css">
-    #call cdn_url('install_head')
-    <link href="/static/admin/css/style.min.css" rel="stylesheet" type="text/css">
+    <link th:href="@{/admin/plugins/jquery-steps/1.1.0/jquery.steps.css}" rel="stylesheet" type="text/css"/>
+    <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="//cdn.bootcss.com/limonte-sweetalert2/6.4.1/sweetalert2.min.css" rel="stylesheet"/>
+    <link th:href="@{/admin/css/style.min.css}" rel="stylesheet" type="text/css"/>
     <style>
         body,html {
-            background: url("/static/admin/images/bg/${random(5, '.png')}") no-repeat;
+            background: url("/admin/images/bg/3.png") no-repeat;
             background-size: cover;
         }
         .home-text {
@@ -42,7 +43,8 @@
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-    #call cdn_url('html5_respond')
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
 </head>
 <body>
@@ -60,8 +62,8 @@
         </div>
     </section>
 
-    #if(!is_install)
-    <div class="row">
+    <!--#if(!is_install)-->
+    <div th:unless="${is_install}" class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -76,21 +78,21 @@
                                     <label class="col-md-3 control-label">* 网站名称</label>
                                     <div class="col-md-8">
                                         <input class="form-control" name="site_title" type="text" placeholder="请输入网站名称"
-                                               required aria-required="true" maxlength="100"/>
+                                               required="required" aria-required="true" maxlength="100"/>
                                     </div>
                                 </div>
                                 <div class="form-group clearfix">
                                     <label class="col-md-3 control-label">* 网站地址</label>
                                     <div class="col-md-8">
                                         <input class="form-control" id="site_url" name="site_url" type="text" placeholder="请输入网站地址，未绑定域名则输入http://ip:port"
-                                               required aria-required="true"/>
+                                               required="required" aria-required="true"/>
                                     </div>
                                 </div>
                                 <div class="form-group clearfix">
                                     <label class="col-md-3 control-label">* 管理员账号</label>
                                     <div class="col-md-8">
                                         <input class="form-control" name="admin_user" type="text" placeholder="请输入管理员账号"
-                                               required aria-required="true" maxlength="50"/>
+                                               required="required" aria-required="true" maxlength="50"/>
                                     </div>
                                 </div>
                                 <div class="form-group clearfix">
@@ -104,7 +106,7 @@
                                     <label class="col-md-3 control-label">* 管理员密码</label>
                                     <div class="col-md-8">
                                         <input id="password1" name="admin_pwd" type="password" class="form-control"
-                                               required aria-required="true" rangelength="[6,14]" placeholder="请输入6-14位管理员密码"/>
+                                               required="required" aria-required="true" rangelength="[6,14]" placeholder="请输入6-14位管理员密码"/>
                                     </div>
                                 </div>
                                 <div class="form-group clearfix">
@@ -127,18 +129,23 @@
                     </form>
                 </div>  <!-- End panel-body -->
             </div> <!-- End panel -->
-
         </div> <!-- end col -->
 
     </div> <!-- End row -->
-    #else
-    你已经安装过Tale了，如需重新安装请提前做好备份，并删除根目录下的
-    <mark>install.lock</mark>
-    文件。
-    #end
+    <div th:if="${is_install}">
+        你已经安装过Tale了，如需重新安装请提前做好备份，并删除根目录下的
+        <mark>install.lock</mark>
+        文件。
+    </div>
+
 </div>
-#call cdn_url('install_foot')
-<script src="/static/admin/js/base.js?v=${version}"></script>
-<script src="/static/admin/js/install.js?v=${version}"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="//cdn.bootcss.com/limonte-sweetalert2/6.4.1/sweetalert2.min.js"></script>
+<script src="//cdn.bootcss.com/jquery-validate/1.15.1/jquery.validate.min.js"></script>
+<script src="//cdn.bootcss.com/jquery-validate/1.15.1/localization/messages_zh.min.js"></script>
+<script src="//cdn.bootcss.com/jquery-steps/1.1.0/jquery.steps.min.js"></script>
+<script th:src="@{/admin/js/base.js}"></script>
+<script th:src="@{/admin/js/install.js}"></script>
 </body>
 </html>

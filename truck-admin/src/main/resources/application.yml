@@ -10,6 +10,13 @@ spring:
     encoding: UTF-8
     content-type: text/html
     cache: false
+#  jetbrick:
+#     template:
+#        enabled: true
+#        charset: UTF-8
+#        content-type: text/html
+#        import:
+#          macros: /templates/admin/comm/macros.html
   datasource:
       url: jdbc:mysql://127.0.0.1:3306/tale?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
       username: root

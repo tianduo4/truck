@@ -10,7 +10,7 @@
 	<packaging>war</packaging>
 
 	<properties>
-		<!--<server.port>8090</server.port>-->
+		<jetbrick.version>2.1.4</jetbrick.version>
 	</properties>
 
 	<dependencies>
@@ -31,6 +31,10 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.baomidou</groupId>
@@ -72,6 +76,11 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 		</dependency>
+		<!-- lombok -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -83,6 +92,7 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<!--<fork>true</fork>-->
 			</plugin>
 		</plugins>
 		<resources>

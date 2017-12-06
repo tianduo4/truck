@@ -28,6 +28,8 @@
         <swagger.version>2.2.2</swagger.version>
         <commons-lang3.version>3.6</commons-lang3.version>
         <javax.servlet.version>3.1.0</javax.servlet.version>
+        <lombok.version>1.16.18</lombok.version>
+
         <!--<commonmark.version>0.9.0</commonmark.version>-->
         <!--<rome.version>1.0</rome.version>-->
         <!--<emoji.version>3.2.0</emoji.version>-->
@@ -53,6 +55,12 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-tomcat</artifactId>
                 <version>${spring-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-devtools</artifactId>
+                <version>${spring-boot.version}</version>
+                <optional>true</optional>
             </dependency>
             <dependency>
                 <groupId>com.baomidou</groupId>
@@ -98,6 +106,14 @@
                 <groupId>javax.servlet</groupId>
                 <artifactId>javax.servlet-api</artifactId>
                 <version>${javax.servlet.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- lombok -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
                 <scope>provided</scope>
             </dependency>
         </dependencies>
