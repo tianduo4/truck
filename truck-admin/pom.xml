@@ -11,6 +11,8 @@
 
 	<properties>
 		<jetbrick.version>2.1.4</jetbrick.version>
+        <thymeleaf.version>3.0.7.RELEASE</thymeleaf.version>
+        <thymeleaf-layout-dialect.version>2.2.2</thymeleaf-layout-dialect.version>
 	</properties>
 
 	<dependencies>
@@ -81,6 +83,21 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.thymeleaf</groupId>
+			<artifactId>thymeleaf-spring4</artifactId>
+			<version>${thymeleaf.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.thymeleaf</groupId>
+			<artifactId>thymeleaf</artifactId>
+			<version>${thymeleaf.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>nz.net.ultraq.thymeleaf</groupId>
+			<artifactId>thymeleaf-layout-dialect</artifactId>
+			<version>${thymeleaf-layout-dialect.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -92,6 +109,7 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<!-- 如果没有该项配置，devtools不会起作用，即应用不会restart -->
 				<!--<fork>true</fork>-->
 			</plugin>
 		</plugins>

@@ -29,7 +29,10 @@ package com.td.truck.admin.controller;
 //import jetbrick.util.ShellUtils;
 //import lombok.extern.slf4j.Slf4j;
 
+import com.td.truck.dto.Statistics;
+import com.td.truck.service.SiteService;
 import groovy.util.logging.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,30 +53,34 @@ public class IndexController extends BaseController {
 
 //    @Inject
 //    private OptionsService optionsService;
-//
-//    @Inject
-//    private SiteService siteService;
+
+    @Autowired
+    private SiteService siteService;
 
     /**
      * 仪表盘
      */
     @RequestMapping(value = {"/", "index"}, method = RequestMethod.GET)
     public String index(HttpServletRequest request, ModelMap model) {
-//        List<Comments> comments   = siteService.recentComments(5);
-//        List<Contents> contents   = siteService.getContens(Types.RECENT_ARTICLE, 5);
-//        Statistics     statistics = siteService.getStatistics();
+//        List<Comment> comments   = siteService.recentComments(5);
+//        List<Content> contents   = siteService.getContens(Types.RECENT_ARTICLE, 5);
+        Statistics statistics = siteService.getStatistics();
 //        // 取最新的20条日志
 //        Page<Logs> logsPage = new Logs().page(1, 20);
 //        List<Logs> logs     = logsPage.getRows();
         List comments=new ArrayList();
         List contents=new ArrayList();
-        List statistics=new ArrayList();
         List logs=new ArrayList();
         model.put("comments", comments);
         model.put("articles", contents);
         model.put("statistics", statistics);
         model.put("logs", logs);
         return "admin/index";
+    }
+
+    @RequestMapping(value = {"index2"}, method = RequestMethod.GET)
+    public String index2(HttpServletRequest request, ModelMap model) {
+        return "admin/layout/layout";
     }
 
 //    /**

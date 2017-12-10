@@ -29,6 +29,7 @@
         <commons-lang3.version>3.6</commons-lang3.version>
         <javax.servlet.version>3.1.0</javax.servlet.version>
         <lombok.version>1.16.18</lombok.version>
+        <slf4j.version>1.7.25</slf4j.version>
 
         <!--<commonmark.version>0.9.0</commonmark.version>-->
         <!--<rome.version>1.0</rome.version>-->
@@ -115,6 +116,28 @@
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
                 <scope>provided</scope>
+            </dependency>
+
+            <!-- slf4j -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>jul-to-slf4j</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>jcl-over-slf4j</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>log4j-over-slf4j</artifactId>
+                <version>${slf4j.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
