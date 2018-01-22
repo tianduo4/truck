@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.thymeleaf.org">
+<ul  th:fragment="pager" class="pagination m-b-5 pull-right">
+    <li th:if="${pageInfo.hasPrevPage}">
+        <a th:href="@{'?page='+${pageInfo.prevPage}}" aria-label="Previous">
+            <i class="fa fa-angle-left"></i>&nbsp;上一页
+        </a>
+    </li>
+    <li  th:each="nav: ${pageInfo.navPageNums}"
+     <a th:href="@{'?page='+${nav}}"><span th:text="${nav}">1</span></a></li>
+    <li th:if="${pageInfo.hasNextPage}">
+        <a th:href="@{'?page='+${pageInfo.nextPage}" aria-label="Next">
+            下一页&nbsp;<i class="fa fa-angle-right"></i>
+        </a>
+    </li>
+    <li><span th:text="'共'+${pageInfo.totalPages}+'页'">共0页</span></li>
+</ul>
+</html>

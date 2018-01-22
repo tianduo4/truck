@@ -27,8 +27,23 @@ public class SiteServiceImpl implements SiteService {
 //    private
 
     /**
+     * 最新收到的评论
+     *
+     * @param limit 评论数
+     */
+//    public List<Comment> recentComments(int limit) {
+////        if (limit < 0 || limit > 10) {
+////            limit = 10;
+////        }
+////        Page<Comment> commentsPage = new Comment().page(1, limit, "created desc");
+////        return commentsPage.getRows();
+//        return new ArrayList<>();
+//    }
+
+    /**
      * 获取后台统计数据
      */
+    @Override
     public Statistics getStatistics() {
 
 //        Statistics statistics = mapCache.get(Types.C_STATISTICS);

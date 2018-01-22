@@ -10,6 +10,7 @@ import com.td.truck.dto.Statistics;
  */
 public interface SiteService {
 
+//    List<Comment> recentComments(int limit) ;
     /**
      * 获取后台统计数据
      */

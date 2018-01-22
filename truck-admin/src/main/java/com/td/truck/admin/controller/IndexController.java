@@ -44,7 +44,7 @@ import java.util.List;
 
 /**
  * 后台控制器
- * Created by biezhi on 2017/2/21.
+ * Created by xushipeng on 2017/12/09.
  */
 @Slf4j
 @Controller
@@ -76,11 +76,6 @@ public class IndexController extends BaseController {
         model.put("statistics", statistics);
         model.put("logs", logs);
         return "admin/index";
-    }
-
-    @RequestMapping(value = {"index2"}, method = RequestMethod.GET)
-    public String index2(HttpServletRequest request, ModelMap model) {
-        return "admin/layout/layout";
     }
 
 //    /**
